@@ -31,4 +31,4 @@ def filter_numbers(arr, filter_type):
     if filter_type == EVEN:
         return list(filter(lambda x: x % 2 == 0, arr))
     if filter_type == PRIME:
-        return list(filter(lambda x: is_prime(x), arr))
+        return list(filter(is_prime, arr))
