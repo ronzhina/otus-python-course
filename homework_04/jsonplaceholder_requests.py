@@ -8,7 +8,7 @@ POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts/"
 
 
 async def new_fetch_json(url):
-    logger.info(f'Fetch url {url}')
+    logger.info('Fetch url {}', url)
     async with aiohttp.ClientSession(json_serialize=ujson.dumps, connector=TCPConnector(verify_ssl=False)) as session:
         async with session.get(url) as resp:
             return await resp.json()
