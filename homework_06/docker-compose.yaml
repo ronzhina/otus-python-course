@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  pg:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: blog
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data/
+
+  blog:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      CONFIG_NAME: DevelopmentConfig
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://app:password@pg/blog
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./:/app
+    depends_on:
+      - pg
+
+  blog-prod:
+    build:
+      context: .
+      dockerfile: docker-build/Dockerfile
+    environment:
+      CONFIG_NAME: ProductionConfig
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://app:password@pg/blog
+    ports:
+      - "5080:80"
+    depends_on:
+      - pg
+
+volumes:
+  pg-data:
