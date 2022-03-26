@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% from 'macros/back_to_posts_list.html' import back_to_posts_list %}
+
+{% block title %}
+Post #{{ post.id }}
+{% endblock %}
+
+{% block head_of_page %}
+Post #{{ post.id }} details
+{%- endblock %}
+
+{% block body %}
+  <p>
+    Автор: {{ post.username }}
+  </p>
+  <p>
+    <strong>{{ post.title }}</strong>
+  </p>
+  <p>
+    {{ post.body }}
+  </p>
+  {{ back_to_posts_list() }}
+{% endblock %}

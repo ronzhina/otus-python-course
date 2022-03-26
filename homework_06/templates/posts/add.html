@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'macros/back_to_posts_list.html' import back_to_posts_list %}
+
+{% block title %}
+Add post
+{% endblock %}
+
+{% block head_of_page %}
+Creation post
+{%- endblock %}
+
+{% block body %}
+  <form method="post" class="my-2">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.username.label(class="form-label") }}
+      {{ form.username(size=100, class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(size=100, class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.body.label(class="form-label") }}
+      {{ form.body(size=2000, class="form-control") }}
+    </div>
+    {% if form.errors %}
+      <ul class="alert alert-danger">
+        {% for field_name, values in form.errors.items() %}
+            <li>
+              <strong>{{ field_name }}</strong>
+                <ul>
+                  {% for error_text in values %}
+                    <li>{{ error_text }}</li>
+                  {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <button class="btn btn-primary" type="submit">
+       Add post
+    </button>
+  </form>
+
+  {{ back_to_posts_list() }}
+
+{% endblock %}
