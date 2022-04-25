@@ -13,3 +13,6 @@ SQLAlchemy~=1.4.31
 ujson~=5.1.0
 werkzeug~=2.0.3
 WTForms~=3.0.1
+app~=0.0.1
+alembic~=1.7.7
+Django~=3.2
