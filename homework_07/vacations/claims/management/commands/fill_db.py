@@ -17,9 +17,10 @@ class Command(BaseCommand):
         surnames = ['Петров', 'Кузнецов', 'Сидоров', 'Иванов']
         patronymics = ['Антонович', 'Сергеевич', 'Иванович', 'Петрович']
 
-        for index in range(0, len(names)):
-            Employee.objects.get_or_create(name=names[index],
-                                           surname=surnames[index],
-                                           patronymic=patronymics[index],
-                                           department=Department.objects.get(name=departments[index]),
-                                           position=Position.objects.get(name=positions[index]))
+        params = zip(names, surnames, patronymics, departments, positions)
+        for name, surname, patronymic, department, position in params:
+            Employee.objects.get_or_create(name=name,
+                                           surname=surname,
+                                           patronymic=patronymic,
+                                           department=Department.objects.get(name=department),
+                                           position=Position.objects.get(name=position))

@@ -5,16 +5,16 @@ from django.utils.translation import gettext_lazy as _
 
 class Claim(models.Model):
     class ClaimType(models.TextChoices):
-        MAIN = 'MN', _('Main')
-        ADDITIONAL = 'AD', _('Additional')
-        CHILD = 'CH', _('Child care')
-        NOTPAID = 'NP', _('Not paid')
-        STUDY = 'ST', _('For study')
+        MAIN = 'MN', _('Основной')
+        ADDITIONAL = 'AD', _('Дополнительный')
+        CHILD = 'CH', _('По уходу за ребёнком')
+        NOTPAID = 'NP', _('Не оплачиваемый')
+        STUDY = 'ST', _('На учёбу')
 
     class ClaimStatus(models.TextChoices):
-        ONAPPROVAL = 'OA', _('On approval')
-        REJECTED = 'RE', _('Rejected')
-        ACCEPTED = 'AC', _('Accepted')
+        ON_APPROVAL = 'OA', _('На согласовании')
+        REJECTED = 'RE', _('Отклонено')
+        ACCEPTED = 'AC', _('Согласовано')
 
     type = models.CharField(
         max_length=2,
@@ -32,13 +32,13 @@ class Claim(models.Model):
     status = models.CharField(
         max_length=2,
         choices=ClaimStatus.choices,
-        default=ClaimStatus.ONAPPROVAL,
+        default=ClaimStatus.ON_APPROVAL.label,
     )
 
     def __str__(self):
         return f"Заявление #{self.id} от {self.employee.get_short_fio()} " \
                f"({self.start_date} – {self.start_date}) " \
-               f"статус {self.status}"
+               f"– {self.ClaimStatus(self.status).label}"
 
 
 class Department(models.Model):
@@ -69,4 +69,4 @@ class Employee(models.Model):
         return f'{self.name} {self.surname} {self.patronymic} – {self.position}'
 
     def get_short_fio(self):
-        return f'{self.patronymic} {self.name[0]}. {self.surname[0]}.'
+        return f'{self.surname} {self.name[0]}. {self.patronymic[0]}.'
