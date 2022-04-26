@@ -1,0 +1,56 @@
+{% extends 'claims/base.html' %}
+
+{% block main_content %}
+{% if claims %}
+<a class="btn btn-primary" href="{% url 'claim_create' %}" role="button">+ Создать заявление</a>
+<table class="table table-borderless table-hover">
+    <thead>
+    <tr>
+        <th>Заявление</th>
+        <th>Дата</th>
+        <th>Сотрудник</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in claims %}
+    <tr>
+        <td>
+            <a href="{% url 'claim_detail' pk=element.pk %}">
+                Заявление #{{ element.pk }}
+            </a>
+        </td>
+        <td>
+            {{ element.start_date|date:'d.m.yy' }} – {{ element.end_date|date:'d.m.yy' }}
+        </td>
+        <td>
+            {{ element.employee.get_short_fio }}
+        </td>
+        <td>
+            {{ element.get_status }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>
+    {% if is_paginated %}
+    {% if page_obj.has_previous %}
+    <a href="{% url 'claim_list' %}?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    {% endif %}
+
+    <span class="page-current">
+                 страница {{ page_obj.number }} из {{ page_obj.paginator.num_page }}
+
+            </span>
+
+    {% if page_obj.has_next %}
+    <a href="{% url 'claim_list' %}?page={{ page_obj.next_page_number }}">&raquo;</a>
+    {% endif %}
+    {% endif %}
+</p>
+{% else %}
+<p>У вас пока нет заявлений.</p>
+<a class="btn btn-primary" href="{% url 'claim_create' %}" role="button">+ Создать заявление</a>
+{% endif %}
+{% endblock %}
