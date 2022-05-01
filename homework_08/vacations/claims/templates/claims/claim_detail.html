@@ -1,0 +1,74 @@
+{% extends 'claims/base.html' %}
+
+{% block header %}
+Заявление #{{ claim.pk }}
+{% endblock %}
+
+{% block main_content %}
+<table class="table table-borderless">
+    <tbody>
+    <tr>
+        <td>
+            Сотрудник
+        </td>
+        <td>
+            {{ claim.employee.get_full_fio}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Тип отпуска
+        </td>
+        <td>
+            {{ claim.get_type }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Период отпуска
+        </td>
+        <td>
+            {{ claim.start_date|date:'d.m.yy' }} – {{ claim.end_date|date:'d.m.yy' }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Статус
+        </td>
+        <td>
+            {{ claim.get_status }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Выплатить отпускные сейчас
+        </td>
+        <td>
+            {% if claim.is_pay_now %}
+            Да
+            {% else %}
+            Нет
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Руководитель
+        </td>
+        <td>
+            {{ claim.agreed_with.get_full_fio}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Комментарий
+        </td>
+        <td>
+            {{ claim.comment}}
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a class="btn btn-primary" href="{% url 'claim_update' pk=claim.pk %}" role="button">Редактировать</a>
+<a class="btn btn-outline-secondary" href="{% url 'claim_list' %}" role="button">Вернуться к списку отпусков</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'claims/base.html' %}
+
+{% block main_content %}
+<p>
+    Добро пожаловать в сервис Отпуска! Вы можете создать заявление на отпуск,согалсовать со своим руководиителем,
+    просмотреть прошлые заявленяи на отпуск.
+</p>
+<div class="text-center">
+
+    <img class="img-fluid rounded m-4 text-center"
+         src="https://grodnonews.by/upload/iblock/e00/e0002fa588982fec33551664c5cc19d0.jpg">
+    <p>
+        Ну что, поехали в отпуск?
+    </p>
+
+    <a class="btn btn-primary" href="{% url 'claim_create' %}" role="button">+ Создать заявление</a>
+</div>
+{% endblock %}
