@@ -1,0 +1,57 @@
+{% extends 'claims/base.html' %}
+
+{% block main_content %}
+{% if claims %}
+<table class="table table-borderless table-hover">
+    <thead>
+    <tr>
+        <th>Заявление</th>
+        <th>Период</th>
+        <th>Сотрудник</th>
+        <th>Статус</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for element in claims %}
+    <tr>
+        <td>
+            <a href="{% url 'claims:detail' pk=element.pk %}">
+                Заявление #{{ element.pk }}
+            </a>
+            <br/>
+        </td>
+        <td>
+            {{ element.start_date|date:'d.m.yy' }} – {{ element.end_date|date:'d.m.yy' }}
+        </td>
+        <td>
+            {{ element.employee.get_short_fio }}
+        </td>
+        <td>
+            {{ element.get_status }}
+        </td>
+        {% if element.status == "OA" %}
+        <td>
+            <form method="post" action="{% url 'claims:accept_claim' pk=element.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Согласовать</button>
+            </form>
+        </td>
+        <td>
+            <form method="post" action="{% url 'claims:reject_claim' pk=element.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Отклонить</button>
+            </form>
+        </td>
+        {% endif %}
+
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Все задания выполнены.</p>
+{% endif %}
+{% endblock %}
