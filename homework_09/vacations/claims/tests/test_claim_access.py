@@ -1,6 +1,7 @@
 import os
 
 import django
+import pytest
 from django.test import TestCase
 from django.urls import reverse
 
@@ -14,6 +15,7 @@ from ..models import Claim
 class ClaimsAccessTest(TestCase):
 
     @classmethod
+    @pytest.mark.django_db
     def setUpClass(cls):
         super().setUpClass()
         Department.objects.get_or_create(name='УР')
@@ -143,8 +145,8 @@ class ClaimsAccessTest(TestCase):
 
         response = self.client.get(reverse('claims:detail', args=[claim_id]), follow=True)
 
-        assert response.redirect_chain == [('/myauth/login?next=/claim/detail/3/', 302),
-                                           ('/myauth/login/?next=%2Fclaim%2Fdetail%2F3%2F', 301)]
+        assert response.redirect_chain == [(f'/myauth/login?next=/claim/detail/{claim_id}/', 302),
+                                           (f'/myauth/login/?next=%2Fclaim%2Fdetail%2F{claim_id}%2F', 301)]
         assert response.status_code == 200
         assert response.template_name == ['registration/login.html']
         assert 'Вход сотрудника' in str(response.content.decode())

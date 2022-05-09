@@ -1,6 +1,7 @@
 import os
 
 import django
+import pytest
 from django.test import TestCase
 from django.urls import reverse
 
@@ -14,6 +15,7 @@ from ..models import Claim
 class ClaimsTest(TestCase):
 
     @classmethod
+    @pytest.mark.django_db
     def setUpClass(cls):
         super().setUpClass()
         Department.objects.get_or_create(name='УР')

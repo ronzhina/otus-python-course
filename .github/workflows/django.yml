@@ -27,4 +27,6 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           cd homework_09/vacations
+          python manage.py makemigrations
+          python manage.py migrate
           pytest -vv
