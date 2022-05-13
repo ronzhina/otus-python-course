@@ -1,0 +1,94 @@
+{% extends 'claims/base.html' %}
+
+{% block header %}
+Заявление #{{ claim.pk }}
+{% endblock %}
+
+{% block main_content %}
+<table class="table table-borderless">
+    <tbody>
+    <tr>
+        <td>
+            Сотрудник
+        </td>
+        <td>
+            {{ claim.employee.get_full_fio}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Тип отпуска
+        </td>
+        <td>
+            {{ claim.get_type }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Период отпуска
+        </td>
+        <td>
+            {{ claim.start_date|date:'d.m.yy' }} – {{ claim.end_date|date:'d.m.yy' }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Статус
+        </td>
+        <td>
+            {{ claim.get_status }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Выплатить отпускные сейчас
+        </td>
+        <td>
+            {% if claim.is_pay_now %}
+            Да
+            {% else %}
+            Нет
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Руководитель
+        </td>
+        <td>
+            {{ claim.agreed_with.get_full_fio}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Комментарий
+        </td>
+        <td>
+            {{ claim.comment}}
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <form method="post" action="{% url 'claims:accept_claim' pk=claim.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Согласовать</button>
+            </form>
+        </td>
+        <td>
+            <form method="post" action="{% url 'claims:reject_claim' pk=claim.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Отклонить</button>
+            </form>
+        </td>
+        <td>
+            <a class="btn btn-outline-secondary" href="{% url 'claim_approve_list' %}" role="button">Вернуться к моим
+                заданиям</a>
+        </td>
+    <tr>
+    </tbody>
+</table>
+{% endblock %}
