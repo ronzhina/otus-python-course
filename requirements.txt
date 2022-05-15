@@ -17,3 +17,4 @@ app~=0.0.1
 alembic~=1.7.7
 Django~=3.2
 django-crispy-forms~=1.14.0
+django-bootstrap-datepicker-plus~=4.0.0
